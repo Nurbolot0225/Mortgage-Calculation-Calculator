@@ -24,6 +24,16 @@ function getResults() {
 }
 
 function setData(newData) {
+
+    if (newData.onUpdate === 'inputCost') {
+        // Обновить цены
+        // Если стоимость меньше мин цены
+        if (newData.cost < data.maxPrice)newData.cost = data.minPrice;
+
+        // Если стоимость больше мин цены
+        if (newData.cost > data.maxPrice)newData.cost = data.minPrice;
+    }
+
     data = {
         ...data,
         ...newData

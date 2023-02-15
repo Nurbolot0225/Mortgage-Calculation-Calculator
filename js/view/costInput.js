@@ -1,4 +1,5 @@
 // import {Cleave} from "../../libs/cleaveJS/cleave-esm.min.js";
+import updateModel from "../utils/updateModel.js";
 
 function init(getData) {
     const data = getData();
@@ -11,11 +12,11 @@ function init(getData) {
     };
 
     const cleaveInput = new Cleave(input, settings);
-    cleaveInput.setRawValue(getData().cost);
+    cleaveInput.setRawValue(data.cost);
 
     input.addEventListener('input', function () {
         const value = +cleaveInput.getRawValue();
-
+        console.log(value);
         // Проверка мин и макс цену
         if (value < data.minPrice || value > data.maxPrice) {
             input.closest('.param__details').classList.add('param__details--error');
@@ -24,6 +25,9 @@ function init(getData) {
         if (value >= data.minPrice && value <= data.maxPrice) {
             input.closest('.param__details').classList.remove('param__details--error');
         }
+
+        // Обновить модель
+        updateModel(input,{ cost: value, onUpdate: 'inputCost'});
     })
 
     input.addEventListener('change', function () {
@@ -38,6 +42,9 @@ function init(getData) {
             input.closest('.param__details').classList.remove('param__details--error');
             cleaveInput.setRawValue(data.minPrice);
         }
+
+        // Обновить модель
+        updateModel(input, { cost:+cleaveInput.getRawValue(), onUpdate: 'inputCost'});
     })
 }
 
