@@ -43,8 +43,6 @@ function setData(newData) {
         }
     }
 
-    console.log('New data', newData);
-
     if (newData.onUpdate === 'inputCost' || newData.onUpdate === 'costSlider') {
         // Обновить цены
         // Если стоимость меньше мин цены
@@ -61,6 +59,23 @@ function setData(newData) {
         // Если сумма первоначалки меньше чем допустимый мин платеж
         if (data.payment < data.getMinPayment()) {
             data.payment = data.getMinPayment();
+        }
+    }
+
+    if (newData.onUpdate === 'inputPayment') {
+        // Пересчитываем %
+        newData.paymentPercents = (newData.payment * 100) / data.cost / 100;
+
+        // Если проценты больше 90%
+        if (newData.paymentPercents > data.maxPaymentPercents) {
+            newData.paymentPercents = data.maxPaymentPercents;
+            newData.paymentPercents = data.cost * data.maxPaymentPercents;
+        }
+
+        // Если проценты больше 90%
+        if (newData.paymentPercents < data.minPaymentPercents) {
+            newData.paymentPercents = data.minPaymentPercents;
+            newData.paymentPercents = data.cost * data.minPaymentPercents;
         }
     }
 
