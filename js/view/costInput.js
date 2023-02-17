@@ -16,7 +16,6 @@ function init(getData) {
 
     input.addEventListener('input', function () {
         const value = +cleaveInput.getRawValue();
-        console.log(value);
         // Проверка мин и макс цену
         if (value < data.minPrice || value > data.maxPrice) {
             input.closest('.param__details').classList.add('param__details--error');
