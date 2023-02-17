@@ -5,6 +5,14 @@ let data = {
     maxPrice: 100000000,
     minPaymentPercents: 0.15,
     maxPaymentPercents: 0.9,
+    paymentPercents: 0.5,
+    payment: 6000000,
+    getMinPayment: function () {
+        return this.cost * this.minPaymentPercents;
+    },
+    getMaxPayment: function () {
+        return this.cost * this.maxPaymentPercents;
+    },
     programs: {
         base: 0.1,
         it: 0.047,
@@ -37,13 +45,24 @@ function setData(newData) {
 
     console.log('New data', newData);
 
-    if (newData.onUpdate === 'inputCost') {
+    if (newData.onUpdate === 'inputCost' || newData.onUpdate === 'costSlider') {
         // Обновить цены
         // Если стоимость меньше мин цены
-        if (newData.cost < data.maxPrice)newData.cost = data.minPrice;
+        if (newData.cost < data.minPrice) newData.cost = data.minPrice;
 
-        // Если стоимость больше мин цены
-        if (newData.cost > data.maxPrice)newData.cost = data.minPrice;
+        // Если стоимость больше макс цены
+        if (newData.cost > data.maxPrice) newData.cost = data.maxPrice;
+
+        // Если новая стоимость меньше первоначалки
+        if (data.payment > data.getMaxPayment()) {
+            data.payment = data.getMaxPayment();
+        }
+
+        // Если сумма первоначалки меньше чем допустимый мин платеж
+        if (data.payment < data.getMinPayment()) {
+            data.payment = data.getMinPayment();
+        }
+
     }
 
     data = {

@@ -4,6 +4,7 @@ import programs from './view/radioPrograms.js';
 import costInput from "./view/costInput.js";
 import costRange from "./view/costRange.js";
 import {updateMinPercents} from "./view/utils.js";
+import paymentInput from "./view/paymentInput.js";
 
 window.onload = function() {
     const getData = Model.getData;
@@ -15,6 +16,8 @@ window.onload = function() {
     const cleaveCost = costInput(getData);
     const sliderCost = costRange(getData);
 
+    // Init Payment input
+    const cleavePayment = paymentInput(getData);
 
     document.addEventListener('updateForm', (e) => {
         Model.setData(e.detail);
@@ -45,6 +48,11 @@ window.onload = function() {
         if (data.onUpdate !== 'costSlider') {
             console.log('update inputSlider');
             sliderCost.noUiSlider.set(data.cost);
+        }
+
+        // paymentInput
+        if (data.onUpdate !== 'inputPayment') {
+            cleavePayment.setRawValue(data.payment);
         }
     }
 }
