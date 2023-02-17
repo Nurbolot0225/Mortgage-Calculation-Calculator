@@ -1,4 +1,3 @@
-// import {Cleave} from "../../libs/cleaveJS/cleave-esm.min.js";
 import updateModel from "../utils/updateModel.js";
 
 function init(getData) {
@@ -43,8 +42,10 @@ function init(getData) {
         }
 
         // Обновить модель
-        updateModel(input, { cost:+cleaveInput.getRawValue(), onUpdate: 'inputCost'});
+        updateModel(input, { cost: +cleaveInput.getRawValue(), onUpdate: 'inputCost'});
     })
+
+    return cleaveInput;
 }
 
 export default init;

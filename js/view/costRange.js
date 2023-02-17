@@ -30,6 +30,8 @@ function init(getData) {
 
         updateModel(slider, {cost: sliderValue, onUpdate: 'costSlider'});
     });
+
+    return slider;
 }
 
 export default init;
