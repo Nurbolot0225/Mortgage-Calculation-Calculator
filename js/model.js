@@ -62,7 +62,10 @@ function setData(newData) {
         if (data.payment < data.getMinPayment()) {
             data.payment = data.getMinPayment();
         }
+    }
 
+    if (newData.onUpdate === 'paymentSlider') {
+        newData.paymentPercents = newData.paymentPercents / 100;
     }
 
     data = {
