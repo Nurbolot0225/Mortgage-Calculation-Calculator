@@ -40,6 +40,14 @@ window.onload = function() {
         // Updated radio buttons
         if (data.onUpdate === 'radioProgram') {
             updateMinPercents(data);
+
+            // update payment slider
+            sliderPayment.noUiSlider.updateOptions({
+                range: {
+                    min: data.minPaymentPercents * 100,
+                    max: data.maxPaymentPercents * 100,
+                },
+            });
         }
 
         // costInput
