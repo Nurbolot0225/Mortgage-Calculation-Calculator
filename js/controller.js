@@ -3,6 +3,7 @@ import updateResultsView from "./view/updateResultsView.js";
 import programs from './view/radioPrograms.js';
 import costInput from "./view/costInput.js";
 import costRange from "./view/costRange.js";
+import {updateMinPercents} from "./view/utils.js";
 
 window.onload = function() {
     const getData = Model.getData;
@@ -29,6 +30,10 @@ window.onload = function() {
     });
 
     function updateFormAndSliders(data) {
+        // Updated radio buttons
+        if (data.onUpdate === 'radioProgram') {
+            updateMinPercents(data);
+        }
 
         // costInput
         if (data.onUpdate !== 'inputCost') {

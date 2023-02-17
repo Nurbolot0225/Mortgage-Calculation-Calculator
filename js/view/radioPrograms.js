@@ -19,8 +19,8 @@ function init(getData) {
     radioBtns.forEach(function (radioBtns) {
         radioBtns.addEventListener('change', function () {
             updateModel(this, {
-                selectedProgram: parseFloat(this.value),
                 onUpdate: 'radioProgram',
+                selectedProgram: parseFloat(this.value),
                 id: this.id,
             });
         });
