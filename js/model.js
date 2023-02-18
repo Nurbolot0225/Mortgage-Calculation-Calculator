@@ -25,18 +25,19 @@ let data = {
 };
 
 let results = {
-    rate: data.selectedProgram
-}
+    rate: data.selectedProgram,
+};
 
 function getData() {
-    return {...data}
+    return { ...data };
 }
 
 function getResults() {
-    return {...results}
+    return { ...results };
 }
 
 function setData(newData) {
+    console.log('New data', newData);
 
     if (newData.onUpdate === 'radioProgram') {
         if (newData.id === 'zero-value') {
@@ -47,7 +48,7 @@ function setData(newData) {
     }
 
     if (newData.onUpdate === 'inputCost' || newData.onUpdate === 'costSlider') {
-        // Обновить цены
+        // Обновление цены
         // Если стоимость меньше мин цены
         if (newData.cost < data.minPrice) newData.cost = data.minPrice;
 
@@ -72,13 +73,13 @@ function setData(newData) {
         // Если проценты больше 90%
         if (newData.paymentPercents > data.maxPaymentPercents) {
             newData.paymentPercents = data.maxPaymentPercents;
-            newData.paymentPercents = data.cost * data.maxPaymentPercents;
+            newData.payment = data.cost * data.maxPaymentPercents;
         }
 
-        // Если проценты больше 90%
+        // Если проценты меньше 90%
         if (newData.paymentPercents < data.minPaymentPercents) {
             newData.paymentPercents = data.minPaymentPercents;
-            newData.paymentPercents = data.cost * data.minPaymentPercents;
+            newData.payment = data.cost * data.minPaymentPercents;
         }
     }
 
@@ -88,23 +89,48 @@ function setData(newData) {
     }
 
     if (newData.onUpdate === 'inputTime') {
-        if (newData.time > data.time > data.maxYear) {
+        if (newData.time > data.maxYear) {
             newData.time = data.maxYear;
         }
-        if (newData.time > data.time > data.maxYear) {
+
+        if (newData.time < data.minYear) {
             newData.time = data.minYear;
         }
     }
 
-
     data = {
         ...data,
-        ...newData
-    }
+        ...newData,
+    };
+
+    // Рассчет ипотеки
+    const months = data.time * 12;
+    console.log('months', months);
+
+    const totalAmount = data.cost - data.payment;
+    console.log('totalAmount', totalAmount);
+
+    const monthRate = data.selectedProgram / 12;
+    console.log('monthRate', monthRate);
+
+    const generalRate = (1 + monthRate) ** months;
+    console.log('generalRate', generalRate);
+
+    const monthPayment = (totalAmount * monthRate * generalRate) / (generalRate - 1);
+    console.log('monthPayment', monthPayment);
+
+    const overPayment = monthPayment * months - totalAmount;
+    console.log('overPayment', overPayment);
 
     results = {
-        rate: data.selectedProgram
-    }
+        rate: data.selectedProgram,
+        totalAmount,
+        monthPayment,
+        overPayment
+    };
+
+    console.log('Updated data', data);
+    console.log('New resulst', results);
 }
 
-export { getData, setData, getResults }
+export { getData, setData, getResults };

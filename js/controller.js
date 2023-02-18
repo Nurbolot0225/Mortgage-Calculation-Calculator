@@ -1,18 +1,18 @@
-import * as Model from './model.js';
-import updateResultsView from "./view/updateResultsView.js";
-import programs from './view/radioPrograms.js';
-import {updateMinPercents} from "./view/utils.js";
+import * as Model from "./model.js";
+import updateResultsView from './view/updateResultsView.js';
+import programs from './view/radioPrograms.js'
+import { updateMinPercents } from "./view/utils.js";
 
-import costInput from "./view/costInput.js";
-import costRange from "./view/costRange.js";
+import costInput from './view/costInput.js'
+import costRange from './view/costRange.js'
 
-import paymentInput from "./view/paymentInput.js";
-import paymentRange from "./view/paymentRange.js";
+import paymentInput from './view/paymentInput.js';
+import paymentRange from './view/paymentRange.js';
 
-import timeInput from "./view/timeInput.js";
-import timeRange from "./view/timeRange.js ";
+import timeInput from './view/timeInput.js';
+import timeRange from './view/timeRange.js';
 
-window.onload = function() {
+window.onload = function () {
     const getData = Model.getData;
 
     // Init programs
@@ -30,6 +30,10 @@ window.onload = function() {
     const cleaveTime = timeInput(getData);
     const sliderTime = timeRange(getData);
 
+    Model.setData({});
+    const results = Model.getResults()
+    updateResultsView(results);
+
     document.addEventListener('updateForm', (e) => {
         Model.setData(e.detail);
 
@@ -44,11 +48,11 @@ window.onload = function() {
     });
 
     function updateFormAndSliders(data) {
-        // Updated radio buttons
+        // Update radio btns
         if (data.onUpdate === 'radioProgram') {
             updateMinPercents(data);
 
-            // update payment slider
+            // Update payment slider
             sliderPayment.noUiSlider.updateOptions({
                 range: {
                     min: data.minPaymentPercents * 100,
@@ -84,7 +88,7 @@ window.onload = function() {
 
         // timeSlider
         if (data.onUpdate !== 'timeSlider') {
-            sliderTime.noUiSlider.set(data.paymentPercents);
+            sliderTime.noUiSlider.set(data.time);
         }
     }
 }
